@@ -1,0 +1,21 @@
+BEGIN
+  DBMS_SCHEDULER.DROP_PROGRAM
+    (program_name          => 'ABSJOB.DEP_PRIORITY_SMS_PRG');
+END;
+/
+
+BEGIN
+  SYS.DBMS_SCHEDULER.CREATE_PROGRAM
+    (
+      program_name         => 'ABSJOB.DEP_PRIORITY_SMS_PRG'
+     ,program_type         => 'PLSQL_BLOCK'
+     ,program_action       => 'BEGIN EMOB.DPR_SMS_SEND_MIDDLEWARE_DEP; END;'
+     ,number_of_arguments  => 0
+     ,enabled              => FALSE
+     ,comments             => 'DEP PRIORITY SMS'
+    );
+
+  SYS.DBMS_SCHEDULER.ENABLE
+    (name                  => 'ABSJOB.DEP_PRIORITY_SMS_PRG');
+END;
+/
